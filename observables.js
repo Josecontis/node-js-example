@@ -49,9 +49,7 @@ from(
   axios.default
     .get("https://jsonplaceholder.typicode.com/posts")
     .then((promises) => promises.data)
-)
-  .pipe(
-    // metodo per l'intersezione
+).pipe(// metodo per l'intersezione
     flatMap((p) => p), // prende tutti i post
     concatMap(
       (post) => fetchUserName(post.userId), //preleva l'utente con un determinato id
