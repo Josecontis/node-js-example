@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const asyncWrapper = require("../utilities/async-wrapper").AsyncWrapper;
 const PlansService = require("../services/plans-service");
+const validator = require("../middleware/validator");
 
 const plansService = new PlansService();
 
@@ -25,9 +26,9 @@ router.get(
   })
 );
 
-// POST request su api/plans
+// POST request su api/plans e viene passato il middleware (validator)
 router.post(
-  "/",
+  "/", [validator("Plan")], 
   asyncWrapper(async (req, res) => {
     let plan = await plansService.create(req.body);
     res.send(plan);
