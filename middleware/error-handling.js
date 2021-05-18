@@ -18,38 +18,39 @@ function errorLogger(err, req, res, next) {
 
 //metodi per specifici messaggi di errore
 function authenticationErrorHandler(err, req, res, next) {
-    if(err instanceof AuthenticationError){
-        return res.sendStatus(401);
-    }
-    next(err); 
+  if (err instanceof AuthenticationError) {
+    return res.sendStatus(401);
+  }
+  next(err);
 }
 
 function validationErrorHandler(err, req, res, next) {
-    if(err instanceof ValidationError){
-        return res.sendStatus(400);
-    }
-    next(err); 
+  if (err instanceof ValidationError) {
+    return res.sendStatus(400);
+  }
+  next(err);
 }
 
 function accessDeniedErrorHandler(err, req, res, next) {
-    if(err instanceof accessDeniedError){
-        return res.sendStatus(403);
-    }
-    next(err); 
+  if (err instanceof accessDeniedError) {
+    return res.sendStatus(403);
+  }
+  next(err);
 }
 
 function genericErrorHandler(err, req, res, next) {
-        res.sendStatus(401);
-    
-    next(); 
+  res.sendStatus(401);
+
+  next();
 }
 
-module.exports =function ErrorHandlingMiddleware(app){
-    app.use([
-        errorLogger,
-        authenticationErrorHandler,
-        validationErrorHandler,
-        accessDeniedErrorHandler,
-        genericErrorHandler
-    ]);
-}
+//modulo per gestire gli errori
+module.exports = function ErrorHandlingMiddleware(app) {
+  app.use([
+    errorLogger,
+    authenticationErrorHandler,
+    validationErrorHandler,
+    accessDeniedErrorHandler,
+    genericErrorHandler,
+  ]);
+};

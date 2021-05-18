@@ -20,12 +20,14 @@ let validators = {
   },
 };
 
+//verifica se esiste lo scope
 function scopeExists(validators, scope) {
   return (
     Object.keys(validators.scopes).find((key) => key == scope) != undefined
   );
 }
 
+//preleva i dati passando il model in input (ovvero se è subscription oppure plan)
 function getSchema(model, scope) {
   let validator = validators[model];
   if (!validator) {
@@ -48,6 +50,7 @@ function getSchema(model, scope) {
   }
 }
 
+//funzione che verofoca la validità delle info inserite prelevate da getSchema
 function validate(model, object, scope) {
   return Joi.validate(object, getSchema(model, scope), {
     allUnknown: true,
@@ -58,9 +61,10 @@ module.exports = function ValidationMiddleware(model, scope) {
   return (req, res, next) => {
     const validationResult = validate(model, req.body, scope);
     if (validationResult.error) {
+      //se il risultato della validazione ha il campo error come vero, gestisce l'eccezione con il messaggio corrispondente
       throw new ValidationError(validationResult.error.message, model);
     } else {
-      next();
+      next(); //passa al middleware successivo
     }
   };
 };

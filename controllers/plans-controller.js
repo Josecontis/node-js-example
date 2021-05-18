@@ -9,9 +9,9 @@ const plansService = new PlansService();
 router.get(
   "/",
   asyncWrapper(async (req, res) => {
-      let userId = null;
-      let plans = await plansService.findAll(userId);
-      res.send(plans);
+    let userId = null;
+    let plans = await plansService.findAll(userId);
+    res.send(plans);
   })
 );
 
@@ -28,7 +28,8 @@ router.get(
 
 // POST request su api/plans e viene passato il middleware (validator)
 router.post(
-  "/", [validator("Plan")], 
+  "/",
+  [validator("Plan")],
   asyncWrapper(async (req, res) => {
     let plan = await plansService.create(req.body);
     res.send(plan);
@@ -39,9 +40,9 @@ router.post(
 router.delete(
   "/:id",
   asyncWrapper(async (req, res) => {
-      let id = req.param.id;
-      await plansService.deleteone(id);
-      res.sendStatus(200);
+    let id = req.param.id;
+    await plansService.deleteone(id);
+    res.sendStatus(200);
   })
 );
 
